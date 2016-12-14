@@ -21,6 +21,7 @@ public class Offer{
     private int shopIdentifier;
 
 
+
     @Override
     public String toString() {
         return "Offer{" +
@@ -45,6 +46,7 @@ public class Offer{
     public void setShopIdentifier(int shopIdentifier) {
         this.shopIdentifier = shopIdentifier;
     }
+
     public String getLinkToItem() {
         return linkToItem;
     }

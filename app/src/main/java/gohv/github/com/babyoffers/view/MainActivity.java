@@ -1,9 +1,7 @@
 package gohv.github.com.babyoffers.view;
 
-import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -23,18 +21,19 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import gohv.github.com.babyoffers.AlertDialogs.AlertDialogNoNetwork;
 import gohv.github.com.babyoffers.AlertDialogs.AlertDialogNoServer;
 import gohv.github.com.babyoffers.R;
 import gohv.github.com.babyoffers.controller.Downloader;
+import gohv.github.com.babyoffers.controller.Search;
 import gohv.github.com.babyoffers.model.Offer;
 import gohv.github.com.babyoffers.controller.OfferAdapter;
+import gohv.github.com.babyoffers.model.Type;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -47,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private String activityTitle;
-    private ViewGroup titlePanel;
     private Downloader.Result result;
 
 
@@ -60,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
             gridView = (GridView) findViewById(R.id.gridview);
             drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
             activityTitle = getTitle().toString();
-
         /*END BIND*/
+
         /*Connection Check*/
             ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo networkInfo = manager.getActiveNetworkInfo();
@@ -73,11 +71,8 @@ public class MainActivity extends AppCompatActivity {
             setupDrawer();
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setTitle("Детски Стоки");
         /*END Drawer*/
-
-
-
-
             new DownloadTask().execute(new Range(0, 10));
 
         } else {
@@ -98,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                getSupportActionBar().setTitle(activityTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
             }
         };
         drawerToggle.setDrawerIndicatorEnabled(true);
@@ -109,35 +104,40 @@ public class MainActivity extends AppCompatActivity {
     private void addDrawerItems() {
         final String[] goods = {"Всички","Дрехи", "Играчки", "Консумативи", "Колички"};
 
-        listAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, goods);
+        listAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, goods);
         drawerList.setAdapter(listAdapter);
 
 
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                if (drawerLayout != null) {
+                    drawerLayout.closeDrawer(drawerList);
+                }
                 switch(position) {
                     case 0:// всички
-                        initializeGridView();
-                        new DownloadTask().execute(new Range(0, 10));
+                      initializeGridView();
+                        new DownloadTask().execute(new Range(0,10));
+                        getSupportActionBar().setTitle("Всички");
                         break;
                     case 1://дрех
-                        initializeSpecificGridView(4,result.offers);
-
-
+                        applySearchBySecondShop(4,1,result.offers);
+                        getSupportActionBar().setTitle("Дрехи,Обувки");
                         break;
                     case 2://играчки
-                        initializeSpecificGridView(3,result.offers);
-
+                      //  applySearchBySecondShop(0,3,result.offers);
+                        applySearchForToys(0,3,result.offers);
+                        getSupportActionBar().setTitle("Играчки");
                         break;
                     case 3://консумативи
-                        initializeSpecificGridView(2,result.offers);
-
+                        applySearchByShop(2,result.offers);
+                        getSupportActionBar().setTitle("Консумативи");
                         break;
                     case 4://колички
-                        initializeSpecificGridView(0,result.offers);
-
+                        applySearchByType(result.offers);
+                        getSupportActionBar().setTitle("Колички,Столчета");
                         break;
                     default:
                 }
@@ -151,12 +151,7 @@ public class MainActivity extends AppCompatActivity {
         drawerToggle.syncState();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
 
     @Override
@@ -164,10 +159,6 @@ public class MainActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -188,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class DownloadTask extends AsyncTask<Range, List<Offer>, List<Offer>> {
         protected List<Offer> doInBackground(Range... ranges) {
-            int pageSize = 30;
+            int pageSize = new Downloader().getOffers(1, 1).size;
             int currentIndexStart = 0;
             int currentIndexEnd = pageSize;
             int lastIndex = 0;
@@ -225,47 +216,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class SpecificDownloadTask extends AsyncTask<Range, List<Offer>, List<Offer>>{
-
-        @Override
-        protected List<Offer> doInBackground(Range... ranges) {
-            int pageSize = 30;
-            int currentIndexStart = 0;
-            int currentIndexEnd = pageSize;
-            int lastIndex = 0;
-
-            try {
-                while (true) {
-
-                    result = new Downloader().getOffers(currentIndexStart, currentIndexEnd);
-                         publishProgress(result.offers);
-
-
-                    lastIndex = result.size - 1;
-                    currentIndexStart += pageSize;
-                    currentIndexEnd += pageSize;
-
-                    if (currentIndexEnd > lastIndex) break;
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                displayMessage();
-            }
-
-            return null;
-        }
-
-        protected void onPostExecute(List<Offer> offers) {
-
-        }
-    }
-
     private void displayMessage() {
         AlertDialogNoServer dialog = new AlertDialogNoServer();
         dialog.show(getFragmentManager(), "display_message");
-
-
     }
 
     private void updateGridview(final List<Offer> offers) {
@@ -285,9 +238,56 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void initializeSpecificGridView(int shopIdentifier, List<Offer> offerList){
-        offerList.addAll(adapter.offers);
-        adapter = new OfferAdapter(this, new Downloader().applySearch(shopIdentifier,offerList));
+    private void applySearchByShop(int shopIdentifier, List<Offer> offerList){
+
+        adapter = new OfferAdapter(this, new Search().applySearchByShop(shopIdentifier,offerList));
+        gridView.setAdapter(adapter);
+
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                showDetails(adapter.offers.get(position));
+            }
+        });
+
+    }
+    private void applySearchBySecondShop(int shopIdentifier,int secondShopIdentifier, List<Offer> offerList){
+
+        adapter = new OfferAdapter(this, new Search().applySearchByShop(shopIdentifier,secondShopIdentifier,offerList));
+        gridView.setAdapter(adapter);
+
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                showDetails(adapter.offers.get(position));
+            }
+        });
+
+    }
+
+    private void applySearchByType(List<Offer> offerList){
+
+        adapter = new OfferAdapter(this, new Search().applySearchByType(Type.strollerKeywords,offerList));
+        gridView.setAdapter(adapter);
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                showDetails(adapter.offers.get(position));
+            }
+        });
+    }
+
+
+    private void applySearchForToys(int shopIdentifier, int secondShop,
+                                    List<Offer> offerList){
+
+        adapter = new OfferAdapter(this, new Search().applySearchForToys(shopIdentifier,secondShop,
+                Type.strollerKeywords,
+                offerList));
+
         gridView.setAdapter(adapter);
 
 
@@ -315,7 +315,6 @@ public class MainActivity extends AppCompatActivity {
         discountTextView.setText(String.valueOf("-" + offer.getDiscount()) + "%");
         discountTextView.setBackgroundColor(Color.parseColor(offer.getDiscountColor(offer.getDiscount())));
         shopNameTextView.setText(String.valueOf("Store Name: " + offer.getShopName()));
-        //productImageView.setImageBitmap(offer.getProductImage());
         Picasso.with(this).load(offer.getProductPhoto()).into(productImageView);
         productNameTextView.setText(offer.getProductName());
         linkToItemTextView.setText(offer.getLinkToItem());
@@ -324,12 +323,5 @@ public class MainActivity extends AppCompatActivity {
         builder.setTitle("Offer Details:")
                 .setView(offerView)
                 .setCancelable(true).show();
-
-
     }
-
-
-
-
-
 }

@@ -5,18 +5,12 @@ package gohv.github.com.babyoffers.controller;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import gohv.github.com.babyoffers.model.Offer;
@@ -31,6 +25,7 @@ public class Downloader {
     private OkHttpClient client;
     private Request request;
     private Response response;
+
 
 
     private InputStream getStream(String urlString) throws IOException {
@@ -57,6 +52,7 @@ public class Downloader {
                 if (line == null) break;
 
                 json += line;
+
             }
 
             return new Gson().fromJson(json, Result.class);
@@ -69,25 +65,8 @@ public class Downloader {
         return null;
     }
 
-    public List<Offer> applySearch(int shopIdentifier,List<Offer> offerList) {
-        if(shopIdentifier > 6){
-            try {
-                throw new Exception("nema takyw shop");
-            } catch (Exception e) {
-                Log.d("SHOP EXCEPTION","NEMA TAKYW SHOP");
-            }
-        }
 
-        ArrayList<Offer> searchShop = new ArrayList<>();
-        int[] shops = {1,2,3,4,5,6};
 
-        for (int i = 0; i < offerList.size(); i++) {
-            if(offerList.get(i).getShopIdentifier() == shops[shopIdentifier]) {
-                searchShop.add(offerList.get(i));
-            }
-        }
-        return searchShop;
-    }
 
     public class Result {
         public List<Offer> offers;

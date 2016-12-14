@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">BabyOffers</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="error_title">Server Maintenance!</string>
@@ -6,6 +7,5 @@
     <string name="drawer_open" translatable="false">Open navigation drawer</string>
     <string name="drawer_close" translatable="false">Close navigation drawer</string>
     <string name="category_string" translatable="false">Изберете категория</string>
-
 
 </resources>
