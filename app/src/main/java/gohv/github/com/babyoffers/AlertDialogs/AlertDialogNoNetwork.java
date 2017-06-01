@@ -6,11 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
-import gohv.github.com.babyoffers.R;
-
-/**
- * Created by gohv on 02.09.16.
- */
 public class AlertDialogNoNetwork extends DialogFragment {
 
 
@@ -27,8 +22,7 @@ public class AlertDialogNoNetwork extends DialogFragment {
                     }
                 });
 
-        android.app.AlertDialog dialog = builder.create();
-        return dialog;
+        return builder.create();
     }
 
     private void exit() {

@@ -1,11 +1,20 @@
 <resources>
 
     <string name="app_name">BabyOffers</string>
-    <string name="action_settings" translatable="false">Settings</string>
     <string name="error_title">Server Maintenance!</string>
     <string name="error_message" translatable="false">Работим по подобряването на програмката, моля опитайте по-късно!</string>
     <string name="drawer_open" translatable="false">Open navigation drawer</string>
     <string name="drawer_close" translatable="false">Close navigation drawer</string>
     <string name="category_string" translatable="false">Изберете категория</string>
+    <string name="image_description" translatable="false">product image view</string>
+    <string name="_10" translatable="false">-10%</string>
+    <string name="_29_90" translatable="false">29.90</string>
+    <string name="_30_90" translatable="false">30.90</string>
+    <string name="test_shop_name" translatable="false">Shop Name: HIPPPPPPPPOOOLAND</string>
+    <string name="textView_test" translatable="false">Detska kolichka hipopopopopopotamusDetska kolichka hipopopopopopotamusDetska kolichka hipopopopopopotamusDetska kolichka hipopopopopopotamus</string>
+    <string name="button_text" translatable="false">Посети Страница на Магазина</string>
+    <string name="old_price" translatable="false">Стара цена: %.2f</string>
+    <string name="discount_price" translatable="false">Намалена Цена: %.2f</string>
+    <string name="shop_actual_name" translatable="false">Магазин: %s</string>
 
 </resources>

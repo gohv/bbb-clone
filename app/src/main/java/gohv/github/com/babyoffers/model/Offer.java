@@ -1,11 +1,5 @@
 package gohv.github.com.babyoffers.model;
 
-import android.graphics.Bitmap;
-
-import java.io.*;
-
-
-
 
 public class Offer{
 

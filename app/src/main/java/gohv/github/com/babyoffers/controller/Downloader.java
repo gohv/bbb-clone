@@ -10,7 +10,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import gohv.github.com.babyoffers.model.Offer;
@@ -21,30 +20,26 @@ import okhttp3.Response;
 
 
 public class Downloader {
-    private final String OFFERS_URL = "http://139.162.162.175:12345/offers";
-    private OkHttpClient client;
-    private Request request;
-    private Response response;
-
 
 
     private InputStream getStream(String urlString) throws IOException {
 
-        client = new OkHttpClient();
-        request = new Request.Builder()
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
                 .url(urlString)
                 .build();
-        response = client.newCall(request).execute();
+        Response response = client.newCall(request).execute();
         return response.body().byteStream();
     }
 
     public Result getOffers(int start, int end) {
         try {
+            String OFFERS_URL = "http://95.111.31.184:12345/offers";
             String url = String.format("%s?s=%s&e=%s", OFFERS_URL, start, end);
             InputStream inputStream = getStream(url);
             BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
             String json = "";
-            String line = "";
+            String line;
 
             while (true) {
                 line = bf.readLine();
@@ -62,8 +57,7 @@ public class Downloader {
             e.printStackTrace();
         }
 
-        return null;
-    }
+        return null;    }
 
 
 

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="200dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
     android:orientation="vertical"
-    android:padding="5dp">
+    android:padding="5dp"
+    android:paddingStart="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="1dp"
+    android:paddingEnd="1dp"
+    android:weightSum="1">
 
     <RelativeLayout
-        android:layout_width="fill_parent"
+        android:layout_width="179dp"
         android:layout_height="110dp"
         android:gravity="center">
 
@@ -15,46 +19,26 @@
             android:id="@+id/productImageView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="29.90"
-            android:background="#cccccc"
-            android:id="@+id/oldPriceTextView"
-            android:layout_alignParentLeft="true"
-            android:padding="3dp"
-            android:layout_marginBottom="2dp"
-            android:textSize="13dp"
-            android:textColor="#000000" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="30.90"
-            android:background="#cbf9c9"
-            android:id="@+id/newPriceTextView"
-            android:layout_below="@+id/oldPriceTextView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:padding="3dp"
-            android:textSize="13dp"
-            android:textColor="#000000" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-10%"
-            android:background="#ff9074"
-            android:id="@+id/discountTextView"
+            android:contentDescription="@string/image_description"
             android:layout_alignParentTop="true"
-            android:layout_alignRight="@+id/productImageView"
-            android:layout_alignEnd="@+id/productImageView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+
+            android:id="@+id/discountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#ff9074"
             android:padding="3dp"
-            android:textSize="13dp"
-            android:textColor="#000000" />
+            android:text="@string/_10"
+            android:textColor="#000000"
+            android:textSize="13sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/progressBar1"
+            android:layout_alignStart="@+id/progressBar1"
+            android:layout_marginLeft="33dp"
+            android:layout_marginStart="33dp" />
 
         <ProgressBar
             android:id="@+id/progressBar1"
@@ -66,11 +50,9 @@
 
 
     <TextView
-        android:id="@+id/line"
         style="?android:attr/listSeparatorTextViewStyle"
         android:paddingTop="5dip"
         android:gravity="center_horizontal"
-        android:layout_below="@+id/connect_help"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#f7f1f1" />
@@ -78,12 +60,44 @@
 
     <TextView
         android:id="@+id/nameTextView"
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="1dp"
+        android:paddingEnd="1dp"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:gravity="bottom"
         android:layout_marginTop="5dp"
-        android:text="test"
-        android:textSize="15dp"
+        android:text="@string/app_name"
+        android:textColor="#BDBDBD"
+        android:textSize="13sp"/>
 
-        ></TextView>
+    <TextView
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="1dp"
+        android:paddingEnd="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="@string/_30_90"
+        android:id="@+id/newPriceTextView"
+        android:padding="3dp"
+        android:textSize="13sp"
+        android:textColor="#8BC34A"
+        android:layout_weight="1.09" />
+
+    <TextView
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="1dp"
+        android:paddingEnd="1dp"
+        android:id="@+id/oldPriceTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:padding="3dp"
+        android:text="@string/_29_90"
+        android:textColor="#388E3C"
+        android:textSize="13sp" />
+
 </LinearLayout>

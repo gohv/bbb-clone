@@ -10,8 +10,7 @@
     android:id="@+id/drawerLayout"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".view.MainActivity"
-    tools:showIn="@layout/activity_main"
-    android:background="#f7f1f1">
+    tools:showIn="@layout/activity_main">
 
 
     <FrameLayout
@@ -20,7 +19,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <GridView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/gridview"
+            android:id="@+id/gridView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:columnWidth="150dp"
@@ -36,7 +35,7 @@
         android:id="@+id/drawerList"
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_gravity="left|start"
+        android:layout_gravity="start"
         android:background="#ffeeeeee"
         android:clickable="true" />
 

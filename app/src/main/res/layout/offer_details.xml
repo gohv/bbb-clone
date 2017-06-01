@@ -1,90 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="5dp"
-    android:minHeight="400dp">
+    android:minHeight="400dp"
+    android:weightSum="1">
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="250dp"
+        android:layout_height="203dp"
         android:gravity="center">
 
         <ImageView
+            android:contentDescription="@string/image_description"
             android:id="@+id/productImageView"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/android_logo"></ImageView>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="29.90"
-            android:background="#cccccc"
-            android:id="@+id/oldPriceTextView"
-            android:layout_alignParentLeft="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="30.90"
-            android:background="#FFFF00"
-            android:id="@+id/newPriceTextView"
-            android:layout_below="@+id/oldPriceTextView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-10%"
+            android:text="@string/_10"
             android:background="#FF0000"
             android:id="@+id/discountTextView"
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/productImageView"
             android:layout_alignEnd="@+id/productImageView" />
 
-
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="157dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_weight="0.03">
+
+        <TextView
+            style="?android:attr/listSeparatorTextViewStyle"
+            android:paddingTop="5dip"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#f7f1f1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/test_shop_name"
+            android:gravity="center"
+            android:id="@+id/storeNameTextView"
+            android:freezesText="false" />
 
         <TextView
             android:id="@+id/nameTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:gravity="bottom"
-            android:text="Detska kolichka hipopopopopopotamusDetska kolichka hipopopopopopotamusDetska kolichka hipopopopopopotamusDetska kolichka hipopopopopopotamus"
-            android:textSize="15dp"
-
-            android:layout_below="@+id/storeNameTextView"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"></TextView>
+            android:gravity="center"
+            android:text="@string/textView_test"
+            android:textSize="15sp"
+            android:layout_marginBottom="22dp"
+            android:freezesText="false" />
 
         <TextView
-            android:layout_width="74dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Shop Name: HIPPPPPPPPOOOLAND"
-            android:id="@+id/storeNameTextView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignRight="@+id/nameTextView"
-            android:layout_alignEnd="@+id/nameTextView" />
+            android:text="@string/_30_90"
+            android:gravity="center"
+            android:textColor="#8BC34A"
+            android:id="@+id/newPriceTextView"
+            android:freezesText="false" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/linkToItemTextView"
-            android:text="http://www.emag.bg/peleni-huggies-ultra-confort-giga-pack-3-girl-94-broja-5029053544632/pd/DW26XYBBM/"
-            android:autoLink="web"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-    </RelativeLayout>
+            android:text="@string/_29_90"
+            android:textColor="#388E3C"
+            android:gravity="center"
+            android:id="@+id/oldPriceTextView"
+            android:layout_marginTop="18dp"
+            android:freezesText="false" />
+
+        <Button
+            android:text="@string/button_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:background="#40ffffff"
+            android:textColor="@color/colorPrimary"/>
+
+    </LinearLayout>
+
 </LinearLayout>

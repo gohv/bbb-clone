@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">Бебешки Намалени Стоки</string>
     <string name="error_title">Сървъра е в процес на подобряване!</string>
+
 </resources>

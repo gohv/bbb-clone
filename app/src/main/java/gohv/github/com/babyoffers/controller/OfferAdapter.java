@@ -26,11 +26,6 @@ import gohv.github.com.babyoffers.model.Offer;
 public class OfferAdapter extends BaseAdapter {
     private Context context;
     public List<Offer> offers;
-    private TextView nameTextView;
-    private TextView oldPriceTextView;
-    private TextView newPriceTextView;
-    private ImageView productImageView;
-    private TextView discountTextVIew;
 
     public OfferAdapter(Context context, List<Offer> offers) {
         this.context = context;
@@ -43,27 +38,29 @@ public class OfferAdapter extends BaseAdapter {
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            gridView = inflater.inflate(R.layout.offer, null);
+            gridView = inflater.inflate(R.layout.offer,parent,false);
         } else {
             gridView = convertView;
         }
 
         Offer offer = offers.get(position);
 
-        nameTextView = (TextView) gridView.findViewById(R.id.nameTextView);
+        TextView nameTextView = (TextView) gridView.findViewById(R.id.nameTextView);
         nameTextView.setText(offer.getProductName());
 
-        oldPriceTextView = (TextView) gridView.findViewById(R.id.oldPriceTextView);
-        oldPriceTextView.setText(String.valueOf(offer.getOldPrice()));
+        TextView oldPriceTextView = (TextView) gridView.findViewById(R.id.oldPriceTextView);
+        oldPriceTextView.setText(context.getString(R.string.old_price, offer.getOldPrice()));
 
-        newPriceTextView = (TextView) gridView.findViewById(R.id.newPriceTextView);
-        newPriceTextView.setText(String.valueOf(offer.getNewPrice()));
+        TextView newPriceTextView = (TextView) gridView.findViewById(R.id.newPriceTextView);
+        newPriceTextView.setText(context.getString(R.string.discount_price, offer.getNewPrice()));
 
-        discountTextVIew = (TextView) gridView.findViewById(R.id.discountTextView);
-        discountTextVIew.setText(String.valueOf("-" + offer.getDiscount()) + "%");
+        TextView discountTextVIew = (TextView) gridView.findViewById(R.id.discountTextView);
+        String discount = "-" + offer.getDiscount() + "%";
+        discountTextVIew.setText(discount);
+        discountTextVIew.setVisibility(View.INVISIBLE);
         discountTextVIew.setBackgroundColor(Color.parseColor(offer.getDiscountColor(offer.getDiscount())));
 
-        productImageView = (ImageView) gridView.findViewById(R.id.productImageView);
+
 
         new ImageDownloader(gridView).execute(offer);
 
@@ -96,27 +93,10 @@ public class OfferAdapter extends BaseAdapter {
 
         protected Offer doInBackground(Offer... urls) {
             Offer offer = urls[0];
-
-            if (offer.getProductPhoto() == null) {
-                String url = urls[0].getProductPhoto();
-
-                Bitmap mIcon = null;
-                try {
-                    InputStream in = new java.net.URL(url).openStream();
-                    mIcon = BitmapFactory.decodeStream(in);
-                } catch (Exception e) {
-                    Log.e("Error", e.getMessage());
-                }
-
-                //offer.setProductImage(mIcon);
-                Picasso.with(context).load(offer.getProductPhoto());
-            }
-
             return offer;
         }
 
         protected void onPostExecute(Offer result) {
-
             Picasso.with(context).load(result.getProductPhoto()).into(image);
             progressBar.setVisibility(View.INVISIBLE);
         }
